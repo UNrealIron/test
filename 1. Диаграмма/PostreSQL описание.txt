@@ -1,0 +1,42 @@
+    applicants (Заявители)
+        Хранит данные о клиентах, подающих заявки на кредит.
+        Обязательные поля: first_name, last_name, birth_date, phone, passport_series, passport_number, registration_region.
+        birth_date содержит ограничение CHECK, чтобы учитывать минимальный возраст 18 лет.
+
+    loanApplications (Кредитные заявки)
+        Связывается с заявителями через applicant_id.
+        loan_product_id указывает на тип кредита.
+        Поле status принимает значения new, approved, rejected.
+        created_at автоматически заполняется текущей датой при создании записи.
+
+    creditHistory (Кредитная история)
+        Связывается с заявителями через applicant_id.
+        loan_sum, term, remaining_debt и current_overdue_debt помогают анализировать платежеспособность клиента.
+        Использует UUID для уникальных записей.
+
+    employmentInfo (Информация о работе)
+        Содержит данные о работодателе клиента.
+        Поле salary позволяет учитывать доход при анализе платежеспособности.
+
+    loanProducts (Продукты кредитования)
+        Определяет условия разных кредитов (rate, max_amount, min_amount).
+
+    loanManagers (Кредитные менеджеры)
+        Содержит информацию о сотрудниках, обрабатывающих заявки.
+
+    branches (Филиалы банков)
+        Представляет разные отделения банка.
+
+    services (Дополнительные услуги)
+        Связана с loanApplications через loanServices, определяя подключённые к кредиту услуги.
+
+    payments (Платежи)
+        Отслеживает платежи клиентов по кредитам, связываясь с creditHistory.
+
+Выбор типов данных
+
+    VARCHAR(N) для текстовых данных (name, phone, email, passport_series).
+    DECIMAL(15,2) для денежных значений (loan_sum, salary, remaining_debt).
+    DATE для дат (birth_date, passport_issued_at, repaid_at).
+    BOOLEAN для флага agreement_signed.
+    UUID в creditHistory для уникальных записей.
